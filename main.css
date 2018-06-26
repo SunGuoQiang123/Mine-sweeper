@@ -1,0 +1,17 @@
+#container {
+    margin: 100px auto;
+}
+
+.blockWrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.untouched {
+    display: inline-block;
+    border: 1px solid #cccccc;
+    width: 20px;
+    height: 20px;
+    text-align:center;
+    box-sizing: border-box;
+}
