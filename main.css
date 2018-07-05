@@ -2,7 +2,7 @@ body {
     background-color: #f5f5f5;
 }
 #container {
-    margin: 100px auto;
+    margin: 50px auto;
     user-select: none;
     display: flex;
     justify-content: center;
@@ -24,19 +24,46 @@ body {
     background-color: #ffffff;
 }
 
+.game-status {
+    display: flex;
+    justify-content: center;
+}
+
+.game-bomb-status, .game-time-record {
+    display: flex;
+    margin-right: 20px;
+    align-items: center;
+}
+
+.game-time-record img {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+}
+
+.game-bomb-status img {
+    margin-right: 10px;
+}
+
 .blockWrap {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
 }
 
-.untouched {
+.block {
     display: inline-block;
     border: 1px solid #dddddd;
     width: 30px;
     height: 30px;
+    line-height: 30px;
     text-align:center;
     box-sizing: border-box;
+    transition: all 0.2s;
+}
+
+#container:not(.endGame) .block:hover {
+    background-color: #cfcfcf;
 }
 
 .visible {
@@ -44,7 +71,7 @@ body {
 }
 
 .bgBomb {
-    background: url(./bomb.png) no-repeat center;
+    background: url(./img/bomb.png) no-repeat center;
     background-size: contain;
 }
 
@@ -53,5 +80,5 @@ body {
 }
 
 .bombMark {
-    background: url(./flag.png);
+    background: url(./img/flag.png);
 }
