@@ -3,6 +3,8 @@ const MODE = {
     medium: [12, 18, 32],
     hard: [18, 24, 64]
 };
+console.log(111111);
+
 const MARKMAP = ['', 'M', '?'];
 const container = document.getElementById('container');
 const menu = document.getElementById('menu');
