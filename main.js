@@ -3,7 +3,6 @@ const MODE = {
     medium: [12, 18, 32],
     hard: [18, 24, 64]
 };
-console.log(111111);
 
 const MARKMAP = ['', 'M', '?'];
 const container = document.getElementById('container');
@@ -22,6 +21,9 @@ let rows = 0;
 let columns = 0;
 let bombCount = 0;
 let currentMarkBomb = 0;  // 当前标记炸弹数量
+let minutes = 0;       // 初始分钟数
+let seconds = 0;       // 初始秒
+let gameTimer = null     // 游戏计时器
 
 init('easy');
 
@@ -106,6 +108,7 @@ function endGame() {
     wrap.removeEventListener('click', handleClick);
     wrap.removeEventListener('contextmenu', handleMark);
     container.classList.add('endGame');
+    clearTimeout(gameTimer);
 }
 
 function render() {
@@ -114,7 +117,11 @@ function render() {
         container.removeChild(oldWrap);
     }
     container.classList.remove('endGame');
+
+    // 游戏状态栏初始化
     BombStatus.textContent = `${currentMarkBomb} / ${bombCount}`;
+    ClockStatus.textContent = '00 : 00';
+
     const fragment = document.createDocumentFragment();
     wrap = document.createElement('div');
     wrap.addEventListener('click', handleClick);
@@ -146,6 +153,13 @@ function handleClick(e) {
     if (blk) {
         if (blk.visible || !!blk.markType) {
             return;
+        }
+
+        if (!minutes && !seconds) {
+            gameTimer = setInterval(() => {
+                const timeSpan = countTimeInterval()
+                renderTimeUpdate(timeSpan);
+            }, 1000);
         }
 
         if (blk.isBomb) {
@@ -231,9 +245,29 @@ function loopBlankBlock(index, blk) {
 
 function init(mode) {
     [rows, columns, bombCount] = MODE[mode];
+    // game status init
     currentMarkBomb = 0;
+    minutes = 0;
+    seconds = 0;
+
     let indexBlocks = Array.from({length: rows * columns}).map((val, index) => index);
     bombIndexes = generateBombIndexes(indexBlocks, bombCount);
     blocks = generateBlocks(indexBlocks);
     render();
+}
+
+function countTimeInterval() {
+    seconds += 1;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes += 1;
+    }
+    if (minutes >= 60){
+        minutes = 60;
+    }
+    return `${minutes < 10 ? '0' + minutes : minutes} : ${seconds < 10 ? '0' + seconds : seconds}`;
+}
+
+function renderTimeUpdate(timeStr) {
+    ClockStatus.textContent = timeStr;
 }
